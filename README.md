@@ -1,39 +1,87 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# SpotifyWrapper
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+SpotifyWrapper is a Dart package that provides a convenient interface for interacting with the Spotify Web API. It allows you to authenticate users, fetch playlists, play songs, and manage playback devices.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+## Prerequisites
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+To use SpotifyWrapper, you need:
 
-## Features
+1. A Spotify Developer account.
+2. A registered application in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/).
+3. The following credentials from your Spotify app:
+   - Client ID
+   - Client Secret
+   - Redirect URI (e.g., `yourapp://callback`)
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+## Installation
 
-## Getting started
+Add the following dependencies to your `pubspec.yaml` file:
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+```yaml
+dependencies:
+  http: ^0.15.0
+  url_launcher: ^6.0.0
+  uni_links: ^0.5.0
+  mocktail: ^0.3.0 # For testing
+```
+
+Run `flutter pub get` to install the dependencies.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+### Initialize SpotifyWrapper
 
 ```dart
-const like = 'sample';
+import 'package:spotify_wrapper/spotify_wrapper.dart';
+
+final spotify = SpotifyWrapper(
+  clientId: 'your-client-id',
+  clientSecret: 'your-client-secret',
+  uriScheme: 'yourapp',
+  callbackUrl: 'yourapp://callback',
+);
+
+spotify.initializeSpotifyWrapper();
 ```
 
-## Additional information
+### Authenticate User
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+await spotify.requestSpotifyAuthorization();
+```
+
+### Fetch a Playlist
+
+```dart
+final playlist = await spotify.getPlaylist('playlist-id');
+print(playlist);
+```
+
+### Play Songs
+
+```dart
+await spotify.playSongs(['spotify:track:track-id']);
+```
+
+### Get Available Devices
+
+```dart
+final devices = await spotify.getAvailableDevices();
+print(devices);
+```
+
+### Transfer Playback
+
+```dart
+await spotify.transferPlayback('device-id', true);
+```
+
+## Running Tests
+
+To run the tests for SpotifyWrapper, use the following command:
+
+```bash
+flutter test
+```
+
+Ensure that you have the `mocktail` package installed for mocking dependencies during tests.
