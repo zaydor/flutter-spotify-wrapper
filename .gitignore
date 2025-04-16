@@ -7,7 +7,7 @@
 .buildlog/
 .history
 .idea/
-
+secrets.dart
 
 
 # Flutter repo-specific
